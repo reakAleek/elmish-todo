@@ -104,16 +104,28 @@ let renderInputField model dispatch =
                                             [
                                                 Button.button [Button.Color IsPrimary; Button.Size IsLarge; Button.Props [ OnClick ( fun _ -> CreateTodo |> dispatch ) ]]
                                                     [ 
-                                                        str "Add"                                                        
+                                                        str "＋"                                                        
                                                     ]
                                             ]
                                     ]
 
+let renderBaseTodoItem (icon: ReactElement) (todoItem: TodoItem) =
+    div [ Style [ Display "flex"; AlignItems "center" ] ] [
+            Button.button [ Button.Color IsWhite ] [ icon ]
+            str todoItem.Text 
+        ]                       
+
+let renderActiveTodo (todoItem: TodoItem) =
+    renderBaseTodoItem (i [ Class "fa fa-circle-thin"] []) todoItem
+
+let renderCompletedToto (todoItem: TodoItem) =
+    renderBaseTodoItem (i [ Class "fa fa-check-circle-o"] []) todoItem
+
 let renderTodoItem (todo: Todo) =
     match todo with
-    | ActiveTodo todoItem -> todoItem.Text
-    | CompletedTodo todoItem -> todoItem.Text
-    
+    | ActiveTodo todoItem -> todoItem |> renderActiveTodo
+    | CompletedTodo todoItem -> todoItem |> renderCompletedToto
+
 let view (model:Model) dispatch =   
     Section.section
         []
@@ -123,7 +135,7 @@ let view (model:Model) dispatch =
                     [
                         Column.column[Column.Width(Screen.All, Column.Is6)]
                             [
-                                Panel.panel[] (Panel.heading[][str "My Todos"] ::  Panel.block [][ renderInputField model dispatch ] :: (Map.toList model.TodoMap |> List.map (fun t -> Panel.block [][ str (renderTodoItem (snd t)) ])))         
+                                Panel.panel[] (Panel.heading[][str "My Todos"] ::  Panel.block [][ renderInputField model dispatch ] :: (Map.toList model.TodoMap |> List.map (fun t -> Panel.block [][ renderTodoItem (snd t) ])))         
                             ]
                     ]
             ]
