@@ -49,40 +49,26 @@ let createTodo (model: Model): Model =
         CurrentKey = model.CurrentKey + 1
     }
 
+let completeTodo (model: Model) (id: int) =
+    let todo = model.TodoMap.Item id
+    match todo with
+    | ActiveTodo todoItem ->
+        let completedTodo = CompletedTodo({ Id = id; Text = todoItem.Text })
+        let newMap = Map.add id completedTodo model.TodoMap
+        { model with TodoMap = newMap }
+    | CompletedTodo todoItem ->
+        let completedTodo = ActiveTodo ({ Id = id; Text = todoItem.Text })
+        let newMap = Map.add id completedTodo model.TodoMap
+        { model with TodoMap = newMap } 
+
 let update (msg:Msg) (model:Model) =
     match msg with
     | CreateTodo -> createTodo model
-    | CompleteTodo id -> model
-    | DeleteTodo id -> model
+    | CompleteTodo id -> completeTodo model id
+    | DeleteTodo id -> {model with TodoMap = Map.remove id model.TodoMap}
     | UpdateTodo todo -> model
     | UpdateCurrentInput txt -> {  model with CurrentInput = txt}
 
-    
-    
-(*     | UpdateDraftForm content ->
-        { model with DraftForm = content }
-    | CreateDraft ->
-        let newDraft = NewDraft model.DraftForm
-        { model with
-            DraftForm = ""
-            Drafts = newDraft::model.Drafts }
-    | BumpDraft title ->
-        let drafts =
-            model.Drafts
-            |> List.map (bump title)
-        { model with Drafts = drafts }
-    | RejectDraft title ->
-        let drafts = 
-            model.Drafts
-            |> List.map (reject title)
-        { model with Drafts = drafts }
-    | UnBumpDraft title ->
-        let drafts = 
-            model.Drafts
-            |> List.map (unbump title)
-        { model with Drafts = drafts } *)
-
-// VIEW (rendered with React)
 
 open Fulma
 open Fable.Import.React
@@ -109,22 +95,23 @@ let renderInputField model dispatch =
                                             ]
                                     ]
 
-let renderBaseTodoItem (icon: ReactElement) (todoItem: TodoItem) =
-    div [ Style [ Display "flex"; AlignItems "center" ] ] [
-            Button.button [ Button.Color IsWhite ] [ icon ]
+let renderBaseTodoItem dispatch (icon: ReactElement) (todoItem: TodoItem) =
+    div [ Style [ Display "flex"; AlignItems "center"; JustifyContent "space-between"; Flex "1 0 auto" ] ] [
+            Button.button [ Button.Color IsWhite; Button.Props[ OnClick ( fun _ -> CompleteTodo todoItem.Id |> dispatch) ] ] [ icon ]
             str todoItem.Text 
+            Button.button[ Button.Color IsDanger; Button.Props [ OnClick ( fun _ -> DeleteTodo todoItem.Id |> dispatch ) ]][ str "x"]
         ]                       
 
-let renderActiveTodo (todoItem: TodoItem) =
-    renderBaseTodoItem (i [ Class "fa fa-circle-thin"] []) todoItem
+let renderActiveTodo dispatch (todoItem: TodoItem) =
+    renderBaseTodoItem dispatch (i [ Class "fa fa-circle-thin"] []) todoItem
 
-let renderCompletedToto (todoItem: TodoItem) =
-    renderBaseTodoItem (i [ Class "fa fa-check-circle-o"] []) todoItem
+let renderCompletedToto dispatch (todoItem: TodoItem) =
+    renderBaseTodoItem dispatch (i [ Class "fa fa-check-circle-o"] []) todoItem
 
-let renderTodoItem (todo: Todo) =
+let renderTodoItem dispatch (todo: Todo) =
     match todo with
-    | ActiveTodo todoItem -> todoItem |> renderActiveTodo
-    | CompletedTodo todoItem -> todoItem |> renderCompletedToto
+    | ActiveTodo todoItem -> todoItem |> renderActiveTodo dispatch
+    | CompletedTodo todoItem -> todoItem |> renderCompletedToto dispatch
 
 let view (model:Model) dispatch =   
     Section.section
@@ -135,7 +122,7 @@ let view (model:Model) dispatch =
                     [
                         Column.column[Column.Width(Screen.All, Column.Is6)]
                             [
-                                Panel.panel[] (Panel.heading[][str "My Todos"] ::  Panel.block [][ renderInputField model dispatch ] :: (Map.toList model.TodoMap |> List.map (fun t -> Panel.block [][ renderTodoItem (snd t) ])))         
+                                Panel.panel[] (Panel.heading[][str "My Todos"] ::  Panel.block [][ renderInputField model dispatch ] :: (Map.toList model.TodoMap |> List.map (fun t -> Panel.block [][ renderTodoItem dispatch (snd t) ])))         
                             ]
                     ]
             ]
