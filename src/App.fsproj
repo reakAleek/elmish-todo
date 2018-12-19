@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="App.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Fable.Core" Version="2.0.2" />
+    <PackageReference Include="Fable.Elmish.React" Version="2.1.0" />
+    <PackageReference Include="Fable.Elmish.Debugger" Version="2.0.2" />
+    <PackageReference Include="Fable.Elmish.HMR" Version="3.0.2" />
+    <PackageReference Include="Fulma" Version="1.1.0" />
+    <PackageRefernece Include="Fulma" Version="1.1.0" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,16 @@
+# Instructions
+
+We are working for a small company that produces motivational posters, joke cards, en-vogue greeting cards you can find in pubs all over the world and other more or less hip and witty items. As the team needs to workshop ideas all the time, from every location and from every device we decide to implement a little workshopping single page web application that allows to create a new card draft containing some (more or less witty) title. If a team member decides that he or she likes the card there should be a way to **bump it up** (they are very hip - they don't *like* things, they *bump* it - always use the lingo of your customers). If the idea is down right horrible they want to reject it. The following instructions will help you to produce a working prototype for your team.
+
+1) Look at how the `BumpDraft` message is emitted in the `OnClick` handler on the `Bump` link in the `newDraftTile` function. Use the same pattern to emit a `RejectDraft` message on the `Reject` link in the `rejectedDraftTile` function.
+
+2) Currently we're only logging every bump a draft receives to the console. This is ok - but offers no value to our customers. Go to the `bumpedDraftTile` function and implement a view to show your users how many bumps the draft has already received.
+
+3) Your customers also want to decrease the bump count in order to model changing opinions over time. Add a `Unbump` link to the `BumpedDraft` tile. Implement a `UnbumpDraft` message and handle it in the `update` method to decrease the bump count (look at the `BumbDraft` message and its handling for inspiration). The `unbump` method is already implemented and can be used to handle the event. Take a close look at the pattern match - there is an interesting piece of business logic there: whenever a bumped card reaches zero bumps it changes its type and becomes a new draft again! In your eyes could this design be improved? Should we default to a rejected card as - clearly - a lot of people don't like it or should we even create a new type to visualize this behavior? (just think about it - you don't have to implement it but you can)
+
+4) There is a usability proplem with our UI. Customers complain that they have to click the `Submit` link in the input tile for every new draft they produce. It would so much easier for them if they could just use the enter key.
+
+5) Apparently your customers reject a lot of ideas which really clutters up your interface. Implement a way to delete rejected cards. To achieve this you'll need a new message which you should handle accordingly. This time there will be be no comment hints in the source code!
+
+6) Your customers are generally happy with the prototype you provided but clearly there are still so many things to make better! What about ordering cards in decreasing/increasing order in realtion to the bumps? What about filtering? What about new card types for especially well received ideas? What about interaction metrics? We know the current bump-count of a card but we don't have any idea about the number of interactions! What about comments and edits (and editable comments)? If you fancy just play around with those ideas or implement your own to get a feeling for Fable and the Elmish model.
+
