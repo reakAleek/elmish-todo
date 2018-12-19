@@ -14,6 +14,10 @@ type TabState =
 | ActiveTab
 | CompletedTab
 
+type TodoState =
+| ActiveTodoState
+| CompletedTodoState
+
 type TodoItem = 
     {
         Id : int
@@ -96,25 +100,25 @@ open Fable.Import.React
 
 let renderInputField model dispatch =
     Field.div [Field.HasAddons; Field.CustomClass "main-input-field"]
-                                    [
-                                        Control.p [Control.IsExpanded][ Input.text
-                                        [ 
-                                            Input.Placeholder "Add todo..." 
-                                            Input.Size IsMedium
-                                            Input.Value model.CurrentInput
-                                            Input.OnChange (fun ev -> UpdateCurrentInput ev.Value |> dispatch )
-                                            Input.Option.Props[OnKeyUp (fun (ev: KeyboardEvent) -> match ev.keyCode with
-                                                                                                    | 13. -> dispatch CreateTodo
-                                                                                                    | _ -> ())]
-                                        ] ]
-                                        Control.p []
-                                            [
-                                                Button.button [Button.Color IsPrimary; Button.IsOutlined; Button.Size IsMedium; Button.Props [ OnClick ( fun _ -> CreateTodo |> dispatch ) ]]
-                                                    [ 
-                                                        i [ Class "ion ion-md-add"] []                                                        
-                                                    ]
-                                            ]
-                                    ]
+        [
+            Control.p [Control.IsExpanded][ Input.text
+            [ 
+                Input.Placeholder "Add todo..." 
+                Input.Size IsMedium
+                Input.Value model.CurrentInput
+                Input.OnChange (fun ev -> UpdateCurrentInput ev.Value |> dispatch )
+                Input.Option.Props[OnKeyUp (fun (ev: KeyboardEvent) -> match ev.keyCode with
+                                                                        | 13. -> dispatch CreateTodo
+                                                                        | _ -> ())]
+            ] ]
+            Control.p []
+                [
+                    Button.button [Button.Color IsPrimary; Button.IsOutlined; Button.Size IsMedium; Button.Props [ OnClick ( fun _ -> CreateTodo |> dispatch ) ]]
+                        [ 
+                            i [ Class "ion ion-md-add"] []                                                        
+                        ]
+                ]
+        ]
 
 let renderBaseTodoItem dispatch (icon: ReactElement) (todoItem: TodoItem) (customClass: string) (disabled: bool) =
     div [ Class ("todo-item " + customClass); Style [ Display "flex"; AlignItems "center"; JustifyContent "space-between"; Flex "1 0 auto" ] ] [
@@ -165,8 +169,7 @@ let filterByTabState (tabState: TabState) (list: List<Todo>): List<Todo> =
         | CompletedTodo _ -> Some todo
         | _ -> None
         )
-
-
+        
 let renderTodoList (model: Model) (dispatch: Msg -> unit): List<ReactElement> =
     ((Map.toList model.TodoMap)
         |> List.rev
