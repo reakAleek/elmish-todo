@@ -43,14 +43,14 @@ body, html {
 
 .todo-item--completed {
     input { 
-        color: #999;
+        color: #aaa;
         text-decoration: line-through;
     }
 
     .todo-item__check-button {
-        color: #ccc;
+        color: #aaa;
         &:active, &:focus {
-            color: #ccc;
+            color: #aaa;
         }
     }
 }

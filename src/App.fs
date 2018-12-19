@@ -111,7 +111,7 @@ let renderInputField model dispatch =
                                             [
                                                 Button.button [Button.Color IsPrimary; Button.IsOutlined; Button.Size IsMedium; Button.Props [ OnClick ( fun _ -> CreateTodo |> dispatch ) ]]
                                                     [ 
-                                                        i [ Class "fa fa-plus"] []                                                        
+                                                        i [ Class "ion ion-md-add"] []                                                        
                                                     ]
                                             ]
                                     ]
@@ -126,14 +126,15 @@ let renderBaseTodoItem dispatch (icon: ReactElement) (todoItem: TodoItem) (custo
                     Input.Disabled disabled
                 ]
             ]
-            Button.button[ Button.CustomClass "todo-item__delete-button"; Button.Color IsDanger; Button.IsOutlined; Button.Props [ OnClick ( fun _ -> DeleteTodo todoItem.Id |> dispatch ) ]][ i [ Class "fa fa-times"] [] ]
+            Button.button[ Button.CustomClass "todo-item__delete-button"; Button.Color IsDanger; Button.IsOutlined; Button.Props [ OnClick ( fun _ -> DeleteTodo todoItem.Id |> dispatch ) ]]
+                [ i [ Class "ion ion-md-close"] [] ]
         ]                       
 
 let renderActiveTodo dispatch (todoItem: TodoItem) =
-    renderBaseTodoItem dispatch (i [ Class "fa fa-circle-o"] []) todoItem "todo-item--active" false
+    renderBaseTodoItem dispatch (i [ Class "ion ion-md-radio-button-off"] []) todoItem "todo-item--active" false
 
 let renderCompletedToto dispatch (todoItem: TodoItem) =
-    renderBaseTodoItem dispatch (i [ Class "fa fa-check-circle-o"] []) todoItem "todo-item--completed" true
+    renderBaseTodoItem dispatch (i [ Class "ion ion-md-checkmark-circle-outline"] []) todoItem "todo-item--completed" true
 
 let renderTodoItem dispatch (todo: Todo) =
     match todo with
