@@ -2,10 +2,10 @@ language: csharp
 dotnet: 2.1.500
 
 before_script:
-  - nvm install 4.4
-  - nvm use 4.4
+  - nvm install 8.11.4
+  - nvm use 8.11.4
   #install yarn globally
-  - npm install -g yarn
+  - npm install -g yarn && yarn
 
 cache:
   yarn: true
