@@ -1,4 +1,8 @@
+[![Build Status](https://travis-ci.org/reakAleek/elmish-todo.svg?branch=master)](https://travis-ci.org/reakAleek/elmish-todo)
+
 # Elmish todo
+
+Live demo: [https://reakaleek.github.io/elmish-todo/](https://reakaleek.github.io/elmish-todo/)
 
 ## I'm lost. What should I do now?
 
