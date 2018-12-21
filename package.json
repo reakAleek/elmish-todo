@@ -6,7 +6,8 @@
   },
   "private": true,
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "dependencies": {
     "@babel/core": "^7.1.2",
