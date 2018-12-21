@@ -5,7 +5,9 @@ before_script:
   - nvm install 8.11.4
   - nvm use 8.11.4
   #install yarn globally
-  - npm install -g yarn && yarn
+  - npm install -g yarn
+  - npm rebuild node-sass
+  - yarn
 
 cache:
   yarn: true
