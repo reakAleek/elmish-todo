@@ -1,8 +1,8 @@
 {
-  "name": "card-manager",
+  "name": "elmish-todo",
   "author": {
-    "name": "WalternativE",
-    "email": "gregor.beyerle@gmail.com"
+    "name": "Jan Calanog",
+    "email": "nejcalanog@gmail.com"
   },
   "private": true,
   "scripts": {

@@ -3,6 +3,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Types.fs" />
+    <Compile Include="Update.fs" />
+    <Compile Include="View.fs" />
     <Compile Include="App.fs" />
   </ItemGroup>
   <ItemGroup>
@@ -11,6 +14,5 @@
     <PackageReference Include="Fable.Elmish.Debugger" Version="2.0.2" />
     <PackageReference Include="Fable.Elmish.HMR" Version="3.0.2" />
     <PackageReference Include="Fulma" Version="1.1.0" />
-    <PackageRefernece Include="Fulma" Version="1.1.0" />
   </ItemGroup>
 </Project>
